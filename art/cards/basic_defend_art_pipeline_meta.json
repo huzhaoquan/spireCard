@@ -1,0 +1,24 @@
+{
+  "skill": "generate2dsprite",
+  "asset_type": "prop",
+  "action": "single",
+  "bundle": "single_asset",
+  "art_style": "pixel_art",
+  "source_image": "C:/Users/34608/.codex/generated_images/019e2464-bf11-7fb1-b297-06d6d260adbb/ig_04cb46b8ed3b5189016a05767977c08191b71ebf6863aea3c8.png",
+  "raw_project_copy": "res://art/cards/basic_defend_art_raw.png",
+  "final_asset": "res://art/cards/basic_defend_art.png",
+  "final_size": {
+    "width": 192,
+    "height": 120
+  },
+  "processing": {
+    "crop": "center_crop_to_16_10",
+    "resize": "high_quality_bicubic"
+  },
+  "qc": {
+    "centered_shield": true,
+    "blocking_sparks": true,
+    "dark_parchment_background": true,
+    "has_text_numbers_icons_or_ui_frame": false
+  }
+}

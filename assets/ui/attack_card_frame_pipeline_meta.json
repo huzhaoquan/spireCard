@@ -1,0 +1,25 @@
+{
+  "skill": "generate2dsprite",
+  "asset_type": "prop",
+  "action": "single",
+  "bundle": "single_asset",
+  "art_style": "pixel_art",
+  "source_image": "C:/Users/34608/.codex/generated_images/019e2464-bf11-7fb1-b297-06d6d260adbb/ig_04cb46b8ed3b5189016a05623c7aa88191be211ad89b69cce7.png",
+  "raw_project_copy": "res://assets/ui/attack_card_frame_raw.png",
+  "final_asset": "res://assets/ui/attack_card_frame_240x320.png",
+  "final_size": {
+	"width": 240,
+	"height": 320
+  },
+  "processing": {
+	"resize": "nearest_neighbor",
+	"transparent_background": true
+  },
+  "qc": {
+	"has_cost_badge_space": true,
+	"has_name_area": true,
+	"has_empty_artwork_area": true,
+	"has_bottom_text_box_area": true,
+	"has_text_numbers_or_icons": false
+  }
+}

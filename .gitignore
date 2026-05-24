@@ -1,0 +1,34 @@
+.godot/
+
+# Local/editor noise
+*.tmp
+*.log
+
+# Non-project planning/source files in the repo root
+/*.xlsx
+
+# Loose generated/reference media in the repo root. Runtime assets live under art/ or assets/.
+/*.png
+/*.jpg
+/*.jpeg
+/*.wav
+/*.png.import
+/*.jpg.import
+/*.jpeg.import
+/*.wav.import
+
+# Discarded UI experiment assets, no longer referenced by runtime code.
+/art/ui/battle_hand_dock.png
+/art/ui/battle_hand_dock.png.import
+/art/ui/end_turn_button.png
+/art/ui/end_turn_button.png.import
+/art/ui/intent_attack.png
+/art/ui/intent_attack.png.import
+/art/ui/deck_pile_icon.png
+/art/ui/deck_pile_icon.png.import
+/art/ui/discard_pile_icon.png
+/art/ui/discard_pile_icon.png.import
+/art/ui/block_diamond.png
+/art/ui/block_diamond.png.import
+/art/ui/battle_ui_pack_raw.png
+/art/ui/battle_ui_pack_raw.png.import

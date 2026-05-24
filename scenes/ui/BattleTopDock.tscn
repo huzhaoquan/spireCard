@@ -1,0 +1,299 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/BattleTopDock.gd" id="1_battle_top_dock_script"]
+
+[node name="BattleTopDock" type="Control"]
+anchors_preset = 10
+anchor_right = 1.0
+offset_right = 1920.0
+offset_bottom = 72.0
+grow_horizontal = 2
+mouse_filter = 0
+script = ExtResource("1_battle_top_dock_script")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 1920.0
+offset_bottom = 72.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.12, 0.115, 0.13, 0.55)
+
+[node name="LeftStatusArea" type="Control" parent="Background"]
+layout_mode = 0
+offset_left = 18.0
+offset_top = 8.0
+offset_right = 760.0
+offset_bottom = 64.0
+mouse_filter = 2
+
+[node name="ClassIconPlaceholder" type="ColorRect" parent="Background/LeftStatusArea"]
+offset_left = 0.0
+offset_top = 6.0
+offset_right = 44.0
+offset_bottom = 50.0
+mouse_filter = 2
+color = Color(0.22, 0.18, 0.14, 1)
+
+[node name="ClassIcon" type="TextureRect" parent="Background/LeftStatusArea"]
+offset_top = 4.0
+offset_right = 48.0
+offset_bottom = 52.0
+mouse_filter = 2
+stretch_mode = 5
+
+[node name="ClassNameLabel" type="Label" parent="Background/LeftStatusArea"]
+offset_left = 56.0
+offset_top = 12.0
+offset_right = 190.0
+offset_bottom = 44.0
+mouse_filter = 2
+text = "铁甲战士"
+vertical_alignment = 1
+theme_override_font_sizes/font_size = 22
+
+[node name="HpIconPlaceholder" type="ColorRect" parent="Background/LeftStatusArea"]
+offset_left = 208.0
+offset_top = 10.0
+offset_right = 244.0
+offset_bottom = 46.0
+mouse_filter = 2
+color = Color(0.55, 0.06, 0.05, 1)
+
+[node name="HpIcon" type="TextureRect" parent="Background/LeftStatusArea"]
+offset_left = 202.0
+offset_top = 4.0
+offset_right = 250.0
+offset_bottom = 52.0
+mouse_filter = 2
+stretch_mode = 5
+
+[node name="HpLabel" type="Label" parent="Background/LeftStatusArea"]
+offset_left = 256.0
+offset_top = 12.0
+offset_right = 346.0
+offset_bottom = 44.0
+mouse_filter = 2
+text = "85/85"
+vertical_alignment = 1
+theme_override_font_sizes/font_size = 22
+
+[node name="GoldIconPlaceholder" type="ColorRect" parent="Background/LeftStatusArea"]
+offset_left = 368.0
+offset_top = 10.0
+offset_right = 404.0
+offset_bottom = 46.0
+mouse_filter = 2
+color = Color(0.75, 0.52, 0.12, 1)
+
+[node name="GoldIcon" type="TextureRect" parent="Background/LeftStatusArea"]
+offset_left = 362.0
+offset_top = 4.0
+offset_right = 410.0
+offset_bottom = 52.0
+mouse_filter = 2
+stretch_mode = 5
+
+[node name="GoldLabel" type="Label" parent="Background/LeftStatusArea"]
+offset_left = 416.0
+offset_top = 12.0
+offset_right = 486.0
+offset_bottom = 44.0
+mouse_filter = 2
+text = "130"
+vertical_alignment = 1
+theme_override_font_sizes/font_size = 22
+
+[node name="PotionSlots" type="Control" parent="Background/LeftStatusArea"]
+offset_left = 510.0
+offset_top = 6.0
+offset_right = 666.0
+offset_bottom = 54.0
+mouse_filter = 2
+
+[node name="PotionSlot1" type="Control" parent="Background/LeftStatusArea/PotionSlots"]
+offset_right = 44.0
+offset_bottom = 44.0
+mouse_filter = 2
+
+[node name="Fill" type="ColorRect" parent="Background/LeftStatusArea/PotionSlots/PotionSlot1"]
+offset_right = 44.0
+offset_bottom = 44.0
+mouse_filter = 2
+color = Color(0.08, 0.075, 0.085, 0.85)
+
+[node name="Label" type="Label" parent="Background/LeftStatusArea/PotionSlots/PotionSlot1"]
+offset_right = 44.0
+offset_bottom = 44.0
+mouse_filter = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+theme_override_font_sizes/font_size = 18
+
+[node name="PotionSlot2" type="Control" parent="Background/LeftStatusArea/PotionSlots"]
+offset_left = 54.0
+offset_right = 98.0
+offset_bottom = 44.0
+mouse_filter = 2
+
+[node name="Fill" type="ColorRect" parent="Background/LeftStatusArea/PotionSlots/PotionSlot2"]
+offset_right = 44.0
+offset_bottom = 44.0
+mouse_filter = 2
+color = Color(0.08, 0.075, 0.085, 0.85)
+
+[node name="Label" type="Label" parent="Background/LeftStatusArea/PotionSlots/PotionSlot2"]
+offset_right = 44.0
+offset_bottom = 44.0
+mouse_filter = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+theme_override_font_sizes/font_size = 18
+
+[node name="PotionSlot3" type="Control" parent="Background/LeftStatusArea/PotionSlots"]
+offset_left = 108.0
+offset_right = 152.0
+offset_bottom = 44.0
+mouse_filter = 2
+
+[node name="Fill" type="ColorRect" parent="Background/LeftStatusArea/PotionSlots/PotionSlot3"]
+offset_right = 44.0
+offset_bottom = 44.0
+mouse_filter = 2
+color = Color(0.08, 0.075, 0.085, 0.85)
+
+[node name="Label" type="Label" parent="Background/LeftStatusArea/PotionSlots/PotionSlot3"]
+offset_right = 44.0
+offset_bottom = 44.0
+mouse_filter = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+theme_override_font_sizes/font_size = 18
+
+[node name="FloorArea" type="Control" parent="Background"]
+layout_mode = 0
+offset_left = 860.0
+offset_top = 8.0
+offset_right = 1060.0
+offset_bottom = 64.0
+mouse_filter = 2
+
+[node name="FloorIconPlaceholder" type="ColorRect" parent="Background/FloorArea"]
+offset_left = 18.0
+offset_top = 10.0
+offset_right = 54.0
+offset_bottom = 46.0
+mouse_filter = 2
+color = Color(0.35, 0.35, 0.36, 1)
+
+[node name="FloorIcon" type="TextureRect" parent="Background/FloorArea"]
+offset_left = 12.0
+offset_top = 4.0
+offset_right = 60.0
+offset_bottom = 52.0
+mouse_filter = 2
+stretch_mode = 5
+
+[node name="FloorLabel" type="Label" parent="Background/FloorArea"]
+offset_left = 68.0
+offset_top = 12.0
+offset_right = 176.0
+offset_bottom = 44.0
+mouse_filter = 2
+text = "第 7 层"
+vertical_alignment = 1
+theme_override_font_sizes/font_size = 24
+
+[node name="RightMenuArea" type="Control" parent="Background"]
+layout_mode = 0
+offset_left = 1390.0
+offset_top = 8.0
+offset_right = 1902.0
+offset_bottom = 64.0
+mouse_filter = 2
+
+[node name="MapButton" type="Button" parent="Background/RightMenuArea"]
+offset_right = 116.0
+offset_bottom = 56.0
+focus_mode = 0
+text = "地图"
+icon_alignment = 1
+
+[node name="MapIconPlaceholder" type="ColorRect" parent="Background/RightMenuArea/MapButton"]
+offset_left = 8.0
+offset_top = 10.0
+offset_right = 44.0
+offset_bottom = 46.0
+mouse_filter = 2
+color = Color(0.42, 0.32, 0.2, 1)
+
+[node name="MapIcon" type="TextureRect" parent="Background/RightMenuArea/MapButton"]
+offset_left = 2.0
+offset_top = 4.0
+offset_right = 50.0
+offset_bottom = 52.0
+mouse_filter = 2
+stretch_mode = 5
+
+[node name="DeckButton" type="Button" parent="Background/RightMenuArea"]
+offset_left = 130.0
+offset_right = 246.0
+offset_bottom = 56.0
+focus_mode = 0
+text = "牌库"
+icon_alignment = 1
+
+[node name="DeckIconPlaceholder" type="ColorRect" parent="Background/RightMenuArea/DeckButton"]
+offset_left = 8.0
+offset_top = 10.0
+offset_right = 44.0
+offset_bottom = 46.0
+mouse_filter = 2
+color = Color(0.38, 0.3, 0.2, 1)
+
+[node name="DeckIcon" type="TextureRect" parent="Background/RightMenuArea/DeckButton"]
+offset_left = 2.0
+offset_top = 4.0
+offset_right = 50.0
+offset_bottom = 52.0
+mouse_filter = 2
+stretch_mode = 5
+
+[node name="DeckCountLabel" type="Label" parent="Background/RightMenuArea"]
+offset_left = 252.0
+offset_top = 12.0
+offset_right = 302.0
+offset_bottom = 44.0
+mouse_filter = 2
+text = "12"
+horizontal_alignment = 1
+vertical_alignment = 1
+theme_override_font_sizes/font_size = 22
+
+[node name="SettingsButton" type="Button" parent="Background/RightMenuArea"]
+offset_left = 322.0
+offset_right = 438.0
+offset_bottom = 56.0
+focus_mode = 0
+text = "设置"
+icon_alignment = 1
+
+[node name="SettingsIconPlaceholder" type="ColorRect" parent="Background/RightMenuArea/SettingsButton"]
+offset_left = 8.0
+offset_top = 10.0
+offset_right = 44.0
+offset_bottom = 46.0
+mouse_filter = 2
+color = Color(0.28, 0.28, 0.3, 1)
+
+[node name="SettingsIcon" type="TextureRect" parent="Background/RightMenuArea/SettingsButton"]
+offset_left = 2.0
+offset_top = 4.0
+offset_right = 50.0
+offset_bottom = 52.0
+mouse_filter = 2
+stretch_mode = 5

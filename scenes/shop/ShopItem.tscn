@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/shop/ShopItem.gd" id="1_shop_item"]
+
+[node name="ShopItem" type="Control"]
+layout_mode = 3
+offset_right = 260.0
+offset_bottom = 230.0
+script = ExtResource("1_shop_item")

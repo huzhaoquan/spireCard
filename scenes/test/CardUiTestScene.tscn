@@ -1,0 +1,92 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/ui/HandArea.tscn" id="1_hand_area_scene"]
+
+[sub_resource type="GDScript" id="GDScript_card_test"]
+script/source = "extends Control
+
+# 测试场景只负责展示 5 张手牌 UI，不包含战斗、抽牌、敌人或地图逻辑。
+const TEST_CARDS := [
+	{
+		\"id\": \"strike\",
+		\"name\": \"打击\",
+		\"cost\": 1,
+		\"type\": \"Attack\",
+		\"rarity\": \"Common\",
+		\"description\": \"造成 6 点伤害。\",
+		\"art_path\": \"res://art/cards/basic_attack_art.png\",
+		\"frame_path\": \"\"
+	},
+	{
+		\"id\": \"defend\",
+		\"name\": \"防御\",
+		\"cost\": 1,
+		\"type\": \"Skill\",
+		\"rarity\": \"Common\",
+		\"description\": \"获得 5 点格挡。\",
+		\"art_path\": \"res://art/cards/basic_defend_art.png\",
+		\"frame_path\": \"\"
+	},
+	{
+		\"id\": \"heavy_strike\",
+		\"name\": \"重击\",
+		\"cost\": 2,
+		\"type\": \"Attack\",
+		\"rarity\": \"Common\",
+		\"description\": \"造成 12 点伤害。\",
+		\"art_path\": \"res://art/cards/basic_attack_art.png\",
+		\"frame_path\": \"\"
+	},
+	{
+		\"id\": \"poison_blade\",
+		\"name\": \"毒刃\",
+		\"cost\": 1,
+		\"type\": \"Attack\",
+		\"rarity\": \"Uncommon\",
+		\"description\": \"造成 4 点伤害。施加 2 层中毒。\",
+		\"art_path\": \"res://art/cards/basic_attack_art.png\",
+		\"frame_path\": \"\"
+	},
+	{
+		\"id\": \"focus\",
+		\"name\": \"专注\",
+		\"cost\": 1,
+		\"type\": \"Power\",
+		\"rarity\": \"Rare\",
+		\"description\": \"获得 1 点专注。\",
+		\"art_path\": \"res://art/cards/focus_art.png\",
+		\"frame_path\": \"\"
+	}
+]
+
+
+func _ready() -> void:
+	# 场景加载完成后把测试卡牌交给 HandArea 展示。
+	$HandArea.set_cards(TEST_CARDS)
+"
+
+[node name="CardUiTestScene" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = SubResource("GDScript_card_test")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.06, 0.065, 0.075, 1)
+
+[node name="HandArea" parent="." instance=ExtResource("1_hand_area_scene")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2

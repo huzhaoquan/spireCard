@@ -1,0 +1,128 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/battle/BattleScene.gd" id="1_battle_scene_script"]
+[ext_resource type="PackedScene" path="res://scenes/ui/BattleTopDock.tscn" id="2_battle_top_dock"]
+
+[node name="BattleScene" type="Node2D"]
+script = ExtResource("1_battle_scene_script")
+
+[node name="BackgroundLayer" type="Node2D" parent="."]
+z_index = 0
+
+[node name="Background" type="Sprite2D" parent="BackgroundLayer"]
+position = Vector2(960, 540)
+z_index = 0
+
+[node name="DecorationLayer" type="Node2D" parent="BackgroundLayer"]
+z_index = 5
+
+[node name="LeftTorch" type="Sprite2D" parent="BackgroundLayer/DecorationLayer"]
+position = Vector2(175, 360)
+scale = Vector2(1.15, 1.15)
+z_index = 1
+
+[node name="RightTorch" type="Sprite2D" parent="BackgroundLayer/DecorationLayer"]
+position = Vector2(1745, 360)
+scale = Vector2(1.15, 1.15)
+z_index = 1
+
+[node name="BrokenPillar" type="Sprite2D" parent="BackgroundLayer/DecorationLayer"]
+position = Vector2(305, 585)
+z_index = 2
+
+[node name="DebrisLeft" type="Sprite2D" parent="BackgroundLayer/DecorationLayer"]
+position = Vector2(650, 735)
+scale = Vector2(0.85, 0.85)
+z_index = 3
+
+[node name="DebrisCenter" type="Sprite2D" parent="BackgroundLayer/DecorationLayer"]
+position = Vector2(1030, 745)
+scale = Vector2(0.75, 0.75)
+z_index = 3
+
+[node name="DebrisRight" type="Sprite2D" parent="BackgroundLayer/DecorationLayer"]
+position = Vector2(1510, 725)
+scale = Vector2(0.9, 0.9)
+z_index = 3
+
+[node name="SlotLayer" type="Node2D" parent="."]
+z_index = 10
+
+[node name="PlayerSlot" type="Marker2D" parent="SlotLayer"]
+position = Vector2(500, 620)
+
+[node name="EnemySlot" type="Marker2D" parent="SlotLayer"]
+position = Vector2(1350, 600)
+
+[node name="CombatVisualLayer" type="Node2D" parent="."]
+z_index = 20
+
+[node name="IntentLayer" type="Node2D" parent="CombatVisualLayer"]
+position = Vector2(1350, 360)
+
+[node name="VFXLayer" type="Node2D" parent="CombatVisualLayer"]
+
+[node name="FloatingTextLayer" type="Node2D" parent="CombatVisualLayer"]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(960, 540)
+enabled = true
+
+[node name="HandUiLayer" type="CanvasLayer" parent="."]
+layer = 10
+
+[node name="TopDockBackdrop" type="ColorRect" parent="HandUiLayer"]
+offset_right = 1920.0
+offset_bottom = 72.0
+mouse_filter = 2
+z_index = 0
+color = Color(0.12, 0.115, 0.13, 0.78)
+
+[node name="BattleTopDock" parent="HandUiLayer" instance=ExtResource("2_battle_top_dock")]
+z_index = 1
+
+[node name="TopDockBottomLine" type="ColorRect" parent="HandUiLayer"]
+offset_top = 71.0
+offset_right = 1920.0
+offset_bottom = 73.0
+mouse_filter = 2
+z_index = 2
+color = Color(0.42, 0.31, 0.18, 0.72)
+
+[node name="EnergyPanel" type="Control" parent="HandUiLayer"]
+offset_left = 42.0
+offset_top = 700.0
+offset_right = 190.0
+offset_bottom = 794.0
+mouse_filter = 2
+
+[node name="PanelBackground" type="ColorRect" parent="HandUiLayer/EnergyPanel"]
+offset_left = 22.0
+offset_top = 18.0
+offset_right = 148.0
+offset_bottom = 82.0
+mouse_filter = 2
+color = Color(0.05, 0.045, 0.055, 0.72)
+
+[node name="EnergyOrb" type="TextureRect" parent="HandUiLayer/EnergyPanel"]
+offset_right = 96.0
+offset_bottom = 96.0
+mouse_filter = 2
+stretch_mode = 5
+
+[node name="EnergyLabel" type="Label" parent="HandUiLayer/EnergyPanel"]
+offset_left = 72.0
+offset_top = 25.0
+offset_right = 148.0
+offset_bottom = 69.0
+mouse_filter = 2
+text = "3/3"
+horizontal_alignment = 1
+vertical_alignment = 1
+theme_override_font_sizes/font_size = 30
+
+[node name="HandAreaSlot" type="Control" parent="HandUiLayer"]
+offset_top = 810.0
+offset_right = 1920.0
+offset_bottom = 1080.0
+mouse_filter = 2

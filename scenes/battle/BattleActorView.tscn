@@ -1,0 +1,82 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/battle/BattleActorView.gd" id="1_actor_view_script"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_empty"]
+animations = [{
+"frames": [],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="BattleActorView" type="Node2D"]
+script = ExtResource("1_actor_view_script")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, 0)
+sprite_frames = SubResource("SpriteFrames_empty")
+centered = true
+
+[node name="StatusUI" type="Control" parent="."]
+offset_left = -100.0
+offset_top = -185.0
+offset_right = 92.0
+offset_bottom = -145.0
+mouse_filter = 2
+z_index = 20
+
+[node name="HPBar" type="ProgressBar" parent="StatusUI"]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 18.0
+offset_right = 192.0
+offset_bottom = 34.0
+mouse_filter = 2
+show_percentage = false
+max_value = 30.0
+value = 30.0
+
+[node name="HPLabel" type="Label" parent="StatusUI"]
+layout_mode = 0
+offset_left = 32.0
+offset_right = 192.0
+offset_bottom = 18.0
+mouse_filter = 2
+text = "30 / 30"
+horizontal_alignment = 1
+vertical_alignment = 1
+theme_override_font_sizes/font_size = 13
+
+[node name="BlockBadge" type="Control" parent="StatusUI"]
+layout_mode = 0
+offset_top = 4.0
+offset_right = 44.0
+offset_bottom = 48.0
+mouse_filter = 2
+visible = false
+
+[node name="BlockDiamond" type="ColorRect" parent="StatusUI/BlockBadge"]
+layout_mode = 0
+offset_left = 7.0
+offset_top = 7.0
+offset_right = 37.0
+offset_bottom = 37.0
+mouse_filter = 2
+rotation = 0.785398
+pivot_offset = Vector2(15, 15)
+color = Color(0.08, 0.32, 0.78, 0.96)
+
+[node name="BlockLabel" type="Label" parent="StatusUI/BlockBadge"]
+layout_mode = 0
+offset_right = 44.0
+offset_bottom = 44.0
+mouse_filter = 2
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+theme_override_colors/font_color = Color(0.86, 0.95, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.9)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_font_sizes/font_size = 18

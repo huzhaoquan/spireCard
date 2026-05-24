@@ -1,0 +1,21 @@
+Use $generate2dsprite to create a 128x128 pixel art VFX sprite sheet for a roguelike card battle game.
+
+Effect:
+A fast diagonal sword slash impact effect.
+
+Frames:
+6 frames total, arranged horizontally in one row.
+
+Style:
+dark fantasy pixel art, bright white slash core, red-orange impact sparks, clear silhouette, high contrast, readable on dark background.
+
+Animation:
+Frame 1: faint slash appears
+Frame 2: slash expands
+Frame 3: brightest impact
+Frame 4: sparks spread
+Frame 5: slash fades
+Frame 6: almost gone
+
+Technical:
+each frame 128x128, transparent background, no text, no UI, sprite sheet.

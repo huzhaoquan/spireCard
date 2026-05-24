@@ -1,0 +1,25 @@
+{
+  "skill": "generate2dsprite",
+  "asset_type": "fx",
+  "action": "impact",
+  "bundle": "single_asset",
+  "art_style": "pixel_art",
+  "frames": 6,
+  "sheet": {
+    "rows": 1,
+    "cols": 6,
+    "frame_width": 128,
+    "frame_height": 128,
+    "width": 768,
+    "height": 128
+  },
+  "source_image": "C:/Users/34608/.codex/generated_images/019e2464-bf11-7fb1-b297-06d6d260adbb/ig_04cb46b8ed3b5189016a059105fc448191ac1f5ab333c3f1c8.png",
+  "raw_project_copy": "res://art/fx/slash_effect_sheet_raw.png",
+  "final_sheet": "res://art/fx/slash_effect_sheet.png",
+  "frames_dir": "res://art/fx/slash_effect_frames/",
+  "processing": {
+    "crop": "center_crop_to_6_1",
+    "resize": "nearest_neighbor",
+    "background_cleanup": "low_saturation_checkerboard_to_transparent"
+  }
+}
