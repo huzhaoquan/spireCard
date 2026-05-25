@@ -7,6 +7,7 @@ const REST_SCENE_PATH: String = "res://scenes/rest/RestScene.tscn"
 const EVENT_SCENE_PATH: String = "res://scenes/event/EventScene.tscn"
 const TREASURE_SCENE_PATH: String = "res://scenes/treasure/TreasureScene.tscn"
 const MAIN_MENU_SCENE_PATH: String = "res://scenes/menu/MainMenu.tscn"
+const CARD_VIEW_SCENE: PackedScene = preload("res://scenes/ui/CardView.tscn")
 
 const MAP_BACKGROUND_PATH: String = "res://art/map/map_bg_dark_fantasy.png"
 const RETURN_ORNAMENT_PATH: String = "res://art/map/map_return_button_ornament.png"
@@ -40,7 +41,7 @@ const TYPE_DETAILS := {
 const MAP_NODES: Array = [
 	{"id": "1-1", "type": "rest", "title": "破碎营火", "position": Vector2(920, 910), "next_ids": ["2-1", "2-2"]},
 	{"id": "2-1", "type": "battle_normal", "title": "沼泽入口", "position": Vector2(700, 800), "next_ids": ["3-1", "3-2"]},
-	{"id": "2-2", "type": "battle_elite", "title": "巡猎者营地", "position": Vector2(1120, 785), "next_ids": ["3-2", "3-3"]},
+	{"id": "2-2", "type": "battle_elite", "title": "裂核沼池", "position": Vector2(1120, 785), "next_ids": ["3-2", "3-3"]},
 	{"id": "3-1", "type": "event", "title": "雾中石碑", "position": Vector2(610, 665), "next_ids": ["4-1"]},
 	{"id": "3-2", "type": "battle_normal", "title": "林间伏击", "position": Vector2(920, 660), "next_ids": ["4-1", "4-2"]},
 	{"id": "3-3", "type": "treasure", "title": "沉船宝箱", "position": Vector2(1250, 650), "next_ids": ["4-2"]},
@@ -48,10 +49,10 @@ const MAP_NODES: Array = [
 	{"id": "4-2", "type": "event", "title": "黑塔低语", "position": Vector2(1080, 520), "next_ids": ["5-2", "5-3"]},
 	{"id": "5-1", "type": "battle_normal", "title": "废墟守卫", "position": Vector2(650, 390), "next_ids": ["6-1"]},
 	{"id": "5-2", "type": "rest", "title": "古树营地", "position": Vector2(920, 405), "next_ids": ["6-1", "6-2"]},
-	{"id": "5-3", "type": "battle_elite", "title": "鸦冠骑士", "position": Vector2(1215, 390), "next_ids": ["6-2"]},
+	{"id": "5-3", "type": "battle_elite", "title": "鸦冠处刑场", "position": Vector2(1215, 390), "next_ids": ["6-2"]},
 	{"id": "6-1", "type": "battle_normal", "title": "城门前哨", "position": Vector2(790, 275), "next_ids": ["7-1"]},
 	{"id": "6-2", "type": "shop", "title": "终末补给", "position": Vector2(1115, 275), "next_ids": ["7-1"]},
-	{"id": "7-1", "type": "battle_boss", "title": "幽影王座", "position": Vector2(960, 165), "next_ids": []}
+	{"id": "7-1", "type": "battle_boss", "title": "铸魂王座", "position": Vector2(960, 165), "next_ids": []}
 ]
 
 var node_layer: Control
@@ -62,6 +63,8 @@ var details_body: Label
 var details_route: Label
 var map_nodes: Dictionary = {}
 var node_lookup: Dictionary = {}
+var deck_overlay: Control
+var deck_cards_container: Control
 
 
 func _ready() -> void:
@@ -131,7 +134,7 @@ func _build_top_bar() -> void:
 	_add_label("层数：%d/7" % int(game_manager.get("floor")), Vector2(1110, 18), Vector2(180, 32), 24, Color(0.88, 0.78, 0.58, 1), HORIZONTAL_ALIGNMENT_CENTER)
 
 	_add_top_icon("map", Vector2(1480, 8), "地图")
-	_add_top_icon("deck", Vector2(1580, 8), "牌组")
+	_add_top_icon_button("deck", Vector2(1580, 8), "牌组", Callable(self, "_show_deck_overlay"))
 	_add_top_icon("relic", Vector2(1680, 8), "遗物")
 	_add_top_icon("settings", Vector2(1780, 8), "设置")
 
@@ -148,6 +151,20 @@ func _add_top_icon(icon_key: String, pos: Vector2, text: String) -> void:
 	icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(icon)
 	_add_label(text, pos + Vector2(-10, 52), Vector2(74, 24), 16, Color(0.86, 0.76, 0.56, 1), HORIZONTAL_ALIGNMENT_CENTER)
+
+
+func _add_top_icon_button(icon_key: String, pos: Vector2, text: String, callback: Callable) -> void:
+	_add_top_icon(icon_key, pos, text)
+
+	var button: Button = Button.new()
+	button.position = pos + Vector2(-8, -2)
+	button.size = Vector2(70, 78)
+	button.z_index = 70
+	button.flat = true
+	button.focus_mode = Control.FOCUS_NONE
+	button.tooltip_text = text
+	button.pressed.connect(callback)
+	add_child(button)
 
 
 func _build_legend_panel() -> void:
@@ -209,6 +226,143 @@ func _build_return_button() -> void:
 	add_child(button)
 
 
+func _show_deck_overlay() -> void:
+	if deck_overlay != null and is_instance_valid(deck_overlay):
+		deck_overlay.queue_free()
+
+	deck_overlay = Control.new()
+	deck_overlay.name = "DeckOverlay"
+	deck_overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
+	deck_overlay.mouse_filter = Control.MOUSE_FILTER_STOP
+	deck_overlay.z_index = 100
+	add_child(deck_overlay)
+
+	var dim: ColorRect = ColorRect.new()
+	dim.color = Color(0, 0, 0, 0.72)
+	dim.set_anchors_preset(Control.PRESET_FULL_RECT)
+	dim.mouse_filter = Control.MOUSE_FILTER_STOP
+	deck_overlay.add_child(dim)
+
+	var panel: Panel = Panel.new()
+	panel.position = Vector2(124, 96)
+	panel.size = Vector2(1672, 872)
+	panel.mouse_filter = Control.MOUSE_FILTER_STOP
+	panel.add_theme_stylebox_override("panel", _deck_panel_style())
+	deck_overlay.add_child(panel)
+
+	var title: Label = _make_overlay_label("牌组", Vector2(178, 120), Vector2(300, 50), 38, Color(0.96, 0.78, 0.42, 1), HORIZONTAL_ALIGNMENT_LEFT)
+	deck_overlay.add_child(title)
+
+	var deck_cards: Array = _build_visible_deck_cards()
+	var summary: Label = _make_overlay_label("共 %d 张卡牌" % deck_cards.size(), Vector2(488, 128), Vector2(300, 34), 22, Color(0.82, 0.74, 0.62, 1), HORIZONTAL_ALIGNMENT_LEFT)
+	deck_overlay.add_child(summary)
+
+	var close_button: Button = Button.new()
+	close_button.text = "关闭"
+	close_button.position = Vector2(1578, 122)
+	close_button.size = Vector2(132, 46)
+	close_button.focus_mode = Control.FOCUS_NONE
+	close_button.add_theme_font_size_override("font_size", 22)
+	close_button.add_theme_stylebox_override("normal", _deck_button_style(false))
+	close_button.add_theme_stylebox_override("hover", _deck_button_style(true))
+	close_button.add_theme_stylebox_override("pressed", _deck_button_style(true))
+	close_button.add_theme_color_override("font_color", Color(0.96, 0.84, 0.62, 1))
+	close_button.pressed.connect(_hide_deck_overlay)
+	deck_overlay.add_child(close_button)
+
+	var scroll: ScrollContainer = ScrollContainer.new()
+	scroll.position = Vector2(172, 198)
+	scroll.size = Vector2(1576, 710)
+	scroll.mouse_filter = Control.MOUSE_FILTER_STOP
+	deck_overlay.add_child(scroll)
+
+	deck_cards_container = Control.new()
+	deck_cards_container.custom_minimum_size = _get_deck_grid_size(deck_cards.size())
+	deck_cards_container.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	scroll.add_child(deck_cards_container)
+
+	for index in range(deck_cards.size()):
+		_add_deck_card_view(deck_cards[index], index)
+
+
+func _hide_deck_overlay() -> void:
+	if deck_overlay != null and is_instance_valid(deck_overlay):
+		deck_overlay.queue_free()
+	deck_overlay = null
+	deck_cards_container = null
+
+
+func _build_visible_deck_cards() -> Array:
+	var cards: Array = []
+	for index in range(5):
+		cards.append(_make_card_preview("strike"))
+	for index in range(4):
+		cards.append(_make_card_preview("defend"))
+	cards.append(_make_card_preview("bash"))
+
+	for card_entry in _game_manager().get("deck_cards"):
+		if not (card_entry is Dictionary):
+			continue
+		var card_id: String = str(card_entry.get("id", ""))
+		var card: Dictionary = _make_card_preview(card_id)
+		if card.is_empty():
+			card = (card_entry as Dictionary).duplicate(true)
+			if not card.has("frame_path"):
+				card["frame_path"] = ""
+		if not card.is_empty():
+			cards.append(card)
+	return cards
+
+
+func _make_card_preview(card_id: String) -> Dictionary:
+	match card_id:
+		"strike":
+			return {"id": "strike", "name": "打击", "cost": 1, "type": "Attack", "rarity": "Common", "description": "造成 6 点伤害。", "art_path": "res://art/cards/basic_attack_art.png", "frame_path": ""}
+		"defend":
+			return {"id": "defend", "name": "防御", "cost": 1, "type": "Skill", "rarity": "Common", "description": "获得 5 点格挡。", "art_path": "res://art/cards/basic_defend_art.png", "frame_path": ""}
+		"bash":
+			return {"id": "bash", "name": "重击", "cost": 2, "type": "Attack", "rarity": "Common", "description": "造成 8 点伤害。施加 2 层易伤。", "art_path": "res://art/cards/bash_art.png", "frame_path": ""}
+		"demon_form":
+			return {"id": "demon_form", "name": "恶魔形态", "cost": 3, "type": "Power", "rarity": "Rare", "description": "在你的回合开始时，获得 2 点力量。", "art_path": "res://art/cards/demon_form_art.png", "frame_path": ""}
+		"spot_weakness":
+			return {"id": "spot_weakness", "name": "观察弱点", "cost": 1, "type": "Skill", "rarity": "Uncommon", "description": "如果目标意图为攻击，获得 3 点力量。", "art_path": "res://art/cards/spot_weakness_art.png", "frame_path": ""}
+		"limit_break":
+			return {"id": "limit_break", "name": "突破极限", "cost": 1, "type": "Skill", "rarity": "Rare", "description": "使你的力量翻倍。消耗。", "art_path": "res://art/cards/limit_break_art.png", "frame_path": ""}
+		"double_tap":
+			return {"id": "double_tap", "name": "双发", "cost": 1, "type": "Skill", "rarity": "Rare", "description": "本回合你的下一张攻击牌打出两次。", "art_path": "res://art/cards/double_tap_art.png", "frame_path": ""}
+		"body_slam":
+			return {"id": "body_slam", "name": "全身撞击", "cost": 1, "type": "Attack", "rarity": "Common", "description": "造成等同于当前格挡的伤害。", "art_path": "res://art/cards/body_slam_art.png", "frame_path": ""}
+		"barricade":
+			return {"id": "barricade", "name": "壁垒", "cost": 3, "type": "Power", "rarity": "Rare", "description": "你的格挡在回合开始时不再消失。", "art_path": "res://art/cards/barricade_art.png", "frame_path": ""}
+		"feel_no_pain":
+			return {"id": "feel_no_pain", "name": "无惧疼痛", "cost": 1, "type": "Power", "rarity": "Uncommon", "description": "每当有一张牌被消耗时，获得 3 点格挡。", "art_path": "res://art/cards/feel_no_pain_art.png", "frame_path": ""}
+		"rage":
+			return {"id": "rage", "name": "盛怒", "cost": 0, "type": "Skill", "rarity": "Uncommon", "description": "本回合每当你打出一张攻击牌，获得 3 点格挡。", "art_path": "res://art/cards/rage_art.png", "frame_path": ""}
+	return {}
+
+
+func _get_deck_grid_size(card_count: int) -> Vector2:
+	var columns: int = 5
+	var rows: int = ceili(float(maxi(card_count, 1)) / float(columns))
+	return Vector2(1500, float(rows) * 318.0 + 30.0)
+
+
+func _add_deck_card_view(card_data: Dictionary, index: int) -> void:
+	if deck_cards_container == null:
+		return
+	var columns: int = 5
+	var col: int = index % columns
+	var row: int = floori(float(index) / float(columns))
+	var card_view: Control = CARD_VIEW_SCENE.instantiate() as Control
+	card_view.position = Vector2(float(col) * 292.0 + 20.0, float(row) * 318.0 + 18.0)
+	card_view.scale = Vector2(0.82, 0.82)
+	card_view.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	deck_cards_container.add_child(card_view)
+	card_view.call("setup", card_data)
+	if card_view.has_method("set_interaction_enabled"):
+		card_view.call("set_interaction_enabled", false)
+
+
 func _make_panel(panel_name: String, panel_position: Vector2, panel_size: Vector2) -> Panel:
 	var panel: Panel = Panel.new()
 	panel.name = panel_name
@@ -232,6 +386,26 @@ func _make_panel(panel_name: String, panel_position: Vector2, panel_size: Vector
 	add_child(panel)
 
 	return panel
+
+
+func _deck_panel_style() -> StyleBoxFlat:
+	var style: StyleBoxFlat = StyleBoxFlat.new()
+	style.bg_color = Color(0.11, 0.078, 0.055, 0.96)
+	style.border_color = Color(0.72, 0.52, 0.26, 0.95)
+	style.set_border_width_all(2)
+	style.set_corner_radius_all(8)
+	style.shadow_color = Color(0, 0, 0, 0.46)
+	style.shadow_size = 18
+	return style
+
+
+func _deck_button_style(hover: bool) -> StyleBoxFlat:
+	var style: StyleBoxFlat = StyleBoxFlat.new()
+	style.bg_color = Color(0.30, 0.13, 0.07, 0.94)
+	style.border_color = Color(1.0, 0.68, 0.28, 1.0) if hover else Color(0.68, 0.42, 0.18, 1.0)
+	style.set_border_width_all(2)
+	style.set_corner_radius_all(6)
+	return style
 
 
 func _add_panel_rule(rule_position: Vector2, rule_size: Vector2) -> void:
@@ -343,6 +517,7 @@ func _on_node_clicked(node_data: Dictionary) -> void:
 	var node_id: String = str(node_data.get("id", ""))
 	var node_type: String = str(node_data.get("type", ""))
 	_game_manager().set("current_node_id", node_id)
+	_game_manager().set("current_node_type", node_type)
 
 	match node_type:
 		"battle_normal":
@@ -430,6 +605,29 @@ func _add_label(
 	label.add_theme_constant_override("shadow_offset_y", 2)
 	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(label)
+	return label
+
+
+func _make_overlay_label(
+	text: String,
+	label_position: Vector2,
+	label_size: Vector2,
+	font_size: int,
+	font_color: Color,
+	alignment: int
+) -> Label:
+	var label: Label = Label.new()
+	label.text = text
+	label.position = label_position
+	label.size = label_size
+	label.horizontal_alignment = alignment
+	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	label.add_theme_font_size_override("font_size", font_size)
+	label.add_theme_color_override("font_color", font_color)
+	label.add_theme_color_override("font_shadow_color", Color(0, 0, 0, 0.9))
+	label.add_theme_constant_override("shadow_offset_x", 2)
+	label.add_theme_constant_override("shadow_offset_y", 2)
+	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	return label
 
 

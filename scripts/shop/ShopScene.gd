@@ -67,8 +67,8 @@ func _add_shop_area() -> void:
 	var items: Array = _get_shop_items()
 	for index in range(items.size()):
 		var item_view: Control = SHOP_ITEM_SCENE.instantiate() as Control
-		var row: int = floori(float(index) / 3.0)
-		item_view.position = Vector2(310 + float(index % 3) * 440.0, 250 + float(row) * 300.0)
+		var row: int = floori(float(index) / 4.0)
+		item_view.position = Vector2(270 + float(index % 4) * 350.0, 244 + float(row) * 286.0)
 		add_child(item_view)
 		item_view.call("setup", items[index])
 		item_view.connect("buy_requested", Callable(self, "_on_buy_requested"))
@@ -101,12 +101,14 @@ func _add_shelf_frame(pos: Vector2, panel_size: Vector2) -> void:
 
 func _get_shop_items() -> Array:
 	return [
-		{"id": "strike_plus", "name": "强化打击", "price": 60, "category": "卡牌", "color": Color(0.5, 0.1, 0.08, 1)},
-		{"id": "guard", "name": "稳固防御", "price": 55, "category": "卡牌", "color": Color(0.1, 0.25, 0.55, 1)},
-		{"id": "focus", "name": "专注", "price": 80, "category": "卡牌", "color": Color(0.42, 0.25, 0.08, 1)},
-		{"id": "old_charm", "name": "古旧护符", "price": 120, "category": "遗物", "color": Color(0.58, 0.45, 0.18, 1)},
-		{"id": "iron_scale", "name": "铁鳞片", "price": 110, "category": "遗物", "color": Color(0.28, 0.32, 0.36, 1)},
-		{"id": "fire_potion", "name": "火焰药水", "price": 45, "category": "药水", "color": Color(0.78, 0.2, 0.08, 1)}
+		{"id": "demon_form", "name": "恶魔形态", "price": 150, "category": "卡牌", "color": Color(0.58, 0.12, 0.08, 1)},
+		{"id": "spot_weakness", "name": "观察弱点", "price": 78, "category": "卡牌", "color": Color(0.62, 0.26, 0.10, 1)},
+		{"id": "limit_break", "name": "突破极限", "price": 130, "category": "卡牌", "color": Color(0.72, 0.18, 0.12, 1)},
+		{"id": "double_tap", "name": "双发", "price": 125, "category": "卡牌", "color": Color(0.68, 0.30, 0.12, 1)},
+		{"id": "body_slam", "name": "全身撞击", "price": 55, "category": "卡牌", "color": Color(0.14, 0.32, 0.62, 1)},
+		{"id": "barricade", "name": "壁垒", "price": 145, "category": "卡牌", "color": Color(0.10, 0.24, 0.52, 1)},
+		{"id": "feel_no_pain", "name": "无惧疼痛", "price": 85, "category": "卡牌", "color": Color(0.18, 0.38, 0.56, 1)},
+		{"id": "rage", "name": "盛怒", "price": 70, "category": "卡牌", "color": Color(0.45, 0.13, 0.10, 1)}
 	]
 
 

@@ -127,8 +127,10 @@ func _input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
 		var mouse_event: InputEventMouseButton = event as InputEventMouseButton
 		if mouse_event.button_index == MOUSE_BUTTON_LEFT and not mouse_event.pressed:
+			var viewport: Viewport = get_viewport()
 			_release_drag()
-			get_viewport().set_input_as_handled()
+			if viewport != null:
+				viewport.set_input_as_handled()
 
 
 func setup(card_data: Dictionary) -> void:
@@ -290,13 +292,21 @@ func _release_drag() -> void:
 		hover_tween.kill()
 		hover_tween = null
 
-	var release_global_position: Vector2 = get_viewport().get_mouse_position()
+	var viewport: Viewport = get_viewport()
+	if viewport == null:
+		is_dragging = false
+		set_process(false)
+		return
+
+	var release_global_position: Vector2 = viewport.get_mouse_position()
 	var is_click: bool = drag_start_global_position.distance_to(release_global_position) <= CLICK_DRAG_THRESHOLD
 	is_dragging = false
 	set_process(false)
 
 	if is_click:
 		card_clicked.emit(current_card_data, self)
+		if not is_inside_tree():
+			return
 
 	card_released.emit(current_card_data, self, release_global_position)
 

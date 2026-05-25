@@ -5,7 +5,7 @@
 [sub_resource type="GDScript" id="GDScript_card_test"]
 script/source = "extends Control
 
-# 测试场景只负责展示 5 张手牌 UI，不包含战斗、抽牌、敌人或地图逻辑。
+# 测试场景只负责展示基础卡牌 UI，不包含战斗、抽牌、敌人或地图逻辑。
 const TEST_CARDS := [
 	{
 		\"id\": \"strike\",
@@ -28,33 +28,93 @@ const TEST_CARDS := [
 		\"frame_path\": \"\"
 	},
 	{
-		\"id\": \"heavy_strike\",
+		\"id\": \"bash\",
 		\"name\": \"重击\",
 		\"cost\": 2,
 		\"type\": \"Attack\",
 		\"rarity\": \"Common\",
-		\"description\": \"造成 12 点伤害。\",
-		\"art_path\": \"res://art/cards/basic_attack_art.png\",
+		\"description\": \"造成 8 点伤害。\",
+		\"art_path\": \"res://art/cards/bash_art.png\",
 		\"frame_path\": \"\"
 	},
 	{
-		\"id\": \"poison_blade\",
-		\"name\": \"毒刃\",
-		\"cost\": 1,
-		\"type\": \"Attack\",
-		\"rarity\": \"Uncommon\",
-		\"description\": \"造成 4 点伤害。施加 2 层中毒。\",
-		\"art_path\": \"res://art/cards/basic_attack_art.png\",
-		\"frame_path\": \"\"
-	},
-	{
-		\"id\": \"focus\",
-		\"name\": \"专注\",
-		\"cost\": 1,
+		\"id\": \"demon_form\",
+		\"name\": \"恶魔形态\",
+		\"cost\": 3,
 		\"type\": \"Power\",
 		\"rarity\": \"Rare\",
-		\"description\": \"获得 1 点专注。\",
-		\"art_path\": \"res://art/cards/focus_art.png\",
+		\"description\": \"在你的回合开始时，获得 2 点力量。\",
+		\"art_path\": \"res://art/cards/demon_form_art.png\",
+		\"frame_path\": \"\"
+	},
+	{
+		\"id\": \"spot_weakness\",
+		\"name\": \"观察弱点\",
+		\"cost\": 1,
+		\"type\": \"Skill\",
+		\"rarity\": \"Uncommon\",
+		\"description\": \"如果目标意图为攻击，获得 3 点力量。\",
+		\"art_path\": \"res://art/cards/spot_weakness_art.png\",
+		\"frame_path\": \"\"
+	},
+	{
+		\"id\": \"limit_break\",
+		\"name\": \"突破极限\",
+		\"cost\": 1,
+		\"type\": \"Skill\",
+		\"rarity\": \"Rare\",
+		\"description\": \"使你的力量翻倍。消耗。\",
+		\"art_path\": \"res://art/cards/limit_break_art.png\",
+		\"frame_path\": \"\"
+	},
+	{
+		\"id\": \"double_tap\",
+		\"name\": \"双发\",
+		\"cost\": 1,
+		\"type\": \"Skill\",
+		\"rarity\": \"Rare\",
+		\"description\": \"本回合你的下一张攻击牌打出两次。\",
+		\"art_path\": \"res://art/cards/double_tap_art.png\",
+		\"frame_path\": \"\"
+	},
+	{
+		\"id\": \"body_slam\",
+		\"name\": \"全身撞击\",
+		\"cost\": 1,
+		\"type\": \"Attack\",
+		\"rarity\": \"Common\",
+		\"description\": \"造成等同于当前格挡的伤害。\",
+		\"art_path\": \"res://art/cards/body_slam_art.png\",
+		\"frame_path\": \"\"
+	},
+	{
+		\"id\": \"barricade\",
+		\"name\": \"壁垒\",
+		\"cost\": 3,
+		\"type\": \"Power\",
+		\"rarity\": \"Rare\",
+		\"description\": \"你的格挡在回合开始时不再消失。\",
+		\"art_path\": \"res://art/cards/barricade_art.png\",
+		\"frame_path\": \"\"
+	},
+	{
+		\"id\": \"feel_no_pain\",
+		\"name\": \"无惧疼痛\",
+		\"cost\": 1,
+		\"type\": \"Power\",
+		\"rarity\": \"Uncommon\",
+		\"description\": \"每当有一张牌被消耗时，获得 3 点格挡。\",
+		\"art_path\": \"res://art/cards/feel_no_pain_art.png\",
+		\"frame_path\": \"\"
+	},
+	{
+		\"id\": \"rage\",
+		\"name\": \"盛怒\",
+		\"cost\": 0,
+		\"type\": \"Skill\",
+		\"rarity\": \"Uncommon\",
+		\"description\": \"本回合每当你打出一张攻击牌，获得 3 点格挡。\",
+		\"art_path\": \"res://art/cards/rage_art.png\",
 		\"frame_path\": \"\"
 	}
 ]

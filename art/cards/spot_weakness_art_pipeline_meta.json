@@ -1,0 +1,23 @@
+﻿{
+    "skill":  "generate2dsprite",
+    "asset_type":  "prop",
+    "action":  "single",
+    "bundle":  "single_asset",
+    "art_style":  "pixel_art",
+    "source_image":  "C:/Users/34608/.codex/generated_images/019e59dd-8538-75d1-9a4e-108b244cd769/ig_0648490713725538016a13bb24c8cc8191aa890a2beafbb7e5.png",
+    "raw_project_copy":  "res://art/cards/spot_weakness_art_raw.png",
+    "final_asset":  "res://art/cards/spot_weakness_art.png",
+    "final_size":  {
+                       "width":  192,
+                       "height":  120
+                   },
+    "processing":  {
+                       "crop":  "center_crop_to_16_10",
+                       "resize":  "nearest_neighbor"
+                   },
+    "qc":  {
+               "marked_weak_point":  true,
+               "dark_parchment_background":  true,
+               "has_text_numbers_icons_or_ui_frame":  false
+           }
+}

@@ -46,8 +46,8 @@ const RETURN_TWEEN_TIME: float = 0.2
 # 有效释放时飞向目标点的动画时间。
 const PLAY_TWEEN_TIME: float = 0.25
 
-# 最多展示 10 张手牌，超出部分不会创建 UI。
-const MAX_HAND_CARDS: int = 10
+# 最多展示 12 张手牌，主要用于卡牌 UI 测试和少量抽牌效果验证。
+const MAX_HAND_CARDS: int = 12
 
 # UI 测试场景的旧释放高度；BattleScene 中 Attack 会优先使用注册的敌人区域。
 const ATTACK_RELEASE_Y: float = 500.0

@@ -6,6 +6,9 @@ const HP_ICON_PATH: String = "res://art/ui/icon_hp.png"
 const CAMPFIRE_ICON_PATH: String = "res://art/ui/rest_campfire_icon.png"
 const UPGRADE_ICON_PATH: String = "res://art/ui/upgrade_card_icon.png"
 
+const ACTION_CARD_SIZE: Vector2 = Vector2(420, 330)
+const ACTION_ICON_MAX_SIZE: Vector2 = Vector2(180, 145)
+
 var hp_label: Label
 var message_label: Label
 var rest_button: Button
@@ -51,20 +54,20 @@ func _add_background() -> void:
 
 
 func _add_title() -> void:
-	_add_label("休息点", Vector2(610, 80), Vector2(700, 82), 58, Color(1.0, 0.76, 0.38, 1), HORIZONTAL_ALIGNMENT_CENTER)
-	_add_label("火光短暂驱散尖塔的寒意", Vector2(660, 154), Vector2(600, 36), 24, Color(0.84, 0.73, 0.58, 1), HORIZONTAL_ALIGNMENT_CENTER)
+	_add_label(self, "休息点", Vector2(610, 74), Vector2(700, 74), 54, Color(1.0, 0.76, 0.38, 1), HORIZONTAL_ALIGNMENT_CENTER)
+	_add_label(self, "火光短暂驱散尖塔的寒意", Vector2(660, 142), Vector2(600, 34), 23, Color(0.84, 0.73, 0.58, 1), HORIZONTAL_ALIGNMENT_CENTER)
 
 
 func _add_status_panel() -> void:
-	var panel: Panel = _make_panel(Vector2(705, 232), Vector2(510, 84), Color(0.09, 0.06, 0.045, 0.72))
+	var panel: Panel = _make_panel(self, Vector2(720, 222), Vector2(480, 82), Color(0.09, 0.06, 0.045, 0.72))
 	panel.name = "HpPanel"
-	_add_icon(HP_ICON_PATH, Vector2(732, 252), Vector2(44, 44))
-	hp_label = _add_label("", Vector2(790, 248), Vector2(370, 48), 30, Color(1.0, 0.42, 0.34, 1), HORIZONTAL_ALIGNMENT_LEFT)
+	_add_icon(self, HP_ICON_PATH, Vector2(752, 242), Vector2(44, 44))
+	hp_label = _add_label(self, "", Vector2(812, 240), Vector2(330, 46), 30, Color(1.0, 0.42, 0.34, 1), HORIZONTAL_ALIGNMENT_LEFT)
 
 
 func _add_action_cards() -> void:
 	_add_action_card(
-		Vector2(448, 408),
+		Vector2(500, 392),
 		CAMPFIRE_ICON_PATH,
 		"休息",
 		"恢复最大生命值的 30%",
@@ -73,7 +76,7 @@ func _add_action_cards() -> void:
 		true
 	)
 	_add_action_card(
-		Vector2(1032, 408),
+		Vector2(1000, 392),
 		UPGRADE_ICON_PATH,
 		"升级卡牌",
 		"强化一张牌。当前版本先保留入口。",
@@ -81,21 +84,28 @@ func _add_action_cards() -> void:
 		Callable(self, "_on_upgrade_pressed"),
 		false
 	)
-	message_label = _add_label("", Vector2(610, 720), Vector2(700, 48), 28, Color(0.95, 0.78, 0.42, 1), HORIZONTAL_ALIGNMENT_CENTER)
+	message_label = _add_label(self, "", Vector2(610, 748), Vector2(700, 48), 28, Color(0.95, 0.78, 0.42, 1), HORIZONTAL_ALIGNMENT_CENTER)
 
 
 func _add_return_button() -> void:
-	_add_button("返回地图", Vector2(810, 875), Vector2(300, 64), Callable(self, "_return_to_map"))
+	_add_button(self, "返回地图", Vector2(810, 870), Vector2(300, 64), Callable(self, "_return_to_map"))
 
 
 func _add_action_card(card_pos: Vector2, icon_path: String, title_text: String, body_text: String, button_text: String, callback: Callable, is_rest: bool) -> void:
-	var panel: Panel = _make_panel(card_pos, Vector2(440, 250), Color(0.11, 0.075, 0.052, 0.76))
+	var panel: Panel = _make_panel(self, card_pos, ACTION_CARD_SIZE, Color(0.11, 0.075, 0.052, 0.78))
 	panel.name = "%sCard" % title_text
-	_add_icon(icon_path, card_pos + Vector2(36, 42), Vector2(112, 112))
-	_add_label(title_text, card_pos + Vector2(174, 42), Vector2(220, 42), 30, Color(0.98, 0.78, 0.42, 1), HORIZONTAL_ALIGNMENT_LEFT)
-	var body: Label = _add_label(body_text, card_pos + Vector2(174, 92), Vector2(220, 70), 21, Color(0.84, 0.78, 0.66, 1), HORIZONTAL_ALIGNMENT_LEFT)
+	panel.clip_contents = true
+	panel.z_index = 1
+
+	_add_label(panel, title_text, Vector2(34, 24), Vector2(ACTION_CARD_SIZE.x - 68, 38), 30, Color(0.98, 0.78, 0.42, 1), HORIZONTAL_ALIGNMENT_CENTER)
+	var icon: TextureRect = _add_icon(panel, icon_path, Vector2.ZERO, ACTION_ICON_MAX_SIZE)
+	if icon != null:
+		icon.position = Vector2((ACTION_CARD_SIZE.x - icon.size.x) * 0.5, 74)
+		icon.modulate = Color(1, 1, 1, 0.96)
+
+	var body: Label = _add_label(panel, body_text, Vector2(52, 224), Vector2(ACTION_CARD_SIZE.x - 104, 44), 21, Color(0.84, 0.78, 0.66, 1), HORIZONTAL_ALIGNMENT_CENTER)
 	body.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	var button: Button = _add_button(button_text, card_pos + Vector2(174, 178), Vector2(180, 46), callback)
+	var button: Button = _add_button(panel, button_text, Vector2(120, 276), Vector2(180, 46), callback)
 	if is_rest:
 		rest_button = button
 
@@ -125,13 +135,13 @@ func _update_hp_label() -> void:
 	hp_label.text = "HP %d / %d" % [int(game_manager.get("player_hp")), int(game_manager.get("player_max_hp"))]
 
 
-func _make_panel(pos: Vector2, panel_size: Vector2, color: Color) -> Panel:
+func _make_panel(parent: Node, pos: Vector2, panel_size: Vector2, color: Color) -> Panel:
 	var panel: Panel = Panel.new()
 	panel.position = pos
 	panel.size = panel_size
 	panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	panel.add_theme_stylebox_override("panel", _panel_style(color))
-	add_child(panel)
+	parent.add_child(panel)
 	return panel
 
 
@@ -146,7 +156,7 @@ func _panel_style(color: Color) -> StyleBoxFlat:
 	return style
 
 
-func _add_label(text: String, pos: Vector2, label_size: Vector2, font_size: int, font_color: Color, alignment: int) -> Label:
+func _add_label(parent: Node, text: String, pos: Vector2, label_size: Vector2, font_size: int, font_color: Color, alignment: int) -> Label:
 	var label: Label = Label.new()
 	label.text = text
 	label.position = pos
@@ -160,11 +170,11 @@ func _add_label(text: String, pos: Vector2, label_size: Vector2, font_size: int,
 	label.add_theme_constant_override("shadow_offset_x", 2)
 	label.add_theme_constant_override("shadow_offset_y", 2)
 	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	add_child(label)
+	parent.add_child(label)
 	return label
 
 
-func _add_button(text: String, pos: Vector2, button_size: Vector2, callback: Callable) -> Button:
+func _add_button(parent: Node, text: String, pos: Vector2, button_size: Vector2, callback: Callable) -> Button:
 	var button: Button = Button.new()
 	button.text = text
 	button.position = pos
@@ -178,7 +188,7 @@ func _add_button(text: String, pos: Vector2, button_size: Vector2, callback: Cal
 	button.add_theme_stylebox_override("disabled", _button_style(false, true))
 	button.add_theme_color_override("font_color", Color(0.96, 0.84, 0.62, 1))
 	button.pressed.connect(callback)
-	add_child(button)
+	parent.add_child(button)
 	return button
 
 
@@ -191,18 +201,21 @@ func _button_style(hover: bool, disabled: bool) -> StyleBoxFlat:
 	return style
 
 
-func _add_icon(path: String, pos: Vector2, icon_size: Vector2) -> void:
+func _add_icon(parent: Node, path: String, pos: Vector2, max_size: Vector2) -> TextureRect:
 	var texture: Texture2D = _load_texture_or_null(path)
 	if texture == null:
-		return
+		return null
 	var icon: TextureRect = TextureRect.new()
 	icon.texture = texture
 	icon.position = pos
-	icon.size = icon_size
-	icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	var texture_size: Vector2 = texture.get_size()
+	var scale_factor: float = min(max_size.x / texture_size.x, max_size.y / texture_size.y)
+	icon.size = texture_size * scale_factor
+	icon.scale = Vector2.ONE
+	icon.stretch_mode = TextureRect.STRETCH_SCALE
 	icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	add_child(icon)
+	parent.add_child(icon)
+	return icon
 
 
 func _make_game_font(display_font: bool) -> SystemFont:
